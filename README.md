@@ -1,4 +1,5 @@
-# imgcompos
+# imgcompos combines 3 images into one, preserving differences
+
 To combine images, make three still photos of the object in different positions. 
 Then save it as 1.png, 2.png, 3.png in 'images2' folder.
 All files must be of the same size. 
