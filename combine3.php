@@ -9,7 +9,7 @@
 	  case 'red':return $r;break;
 	  case 'blue':return $b;break;
 	  case 'green':return $g;break;
-	  default:return $r+$g+$b;
+	  default:return ($r+$g+$b)/3;
 	  
 	}
 	
@@ -18,41 +18,53 @@
       function lightenpixels($x,$y,$im)
       {
 	$col='none';
-	$delta[0][1]=getcomp(imagecolorat($im[1],$x,$y),$col)-getcomp(imagecolorat($im[2],$x,$y),$col);
-	$delta[0][2]=getcomp(imagecolorat($im[2],$x,$y),$col)-getcomp(imagecolorat($im[3],$x,$y),$col);
-	$delta[0][3]=getcomp(imagecolorat($im[3],$x,$y),$col)-getcomp(imagecolorat($im[1],$x,$y),$col);
+	$delta[0][1]=getcomp(imagecolorat($im[1],$x,$y),$col);//-getcomp(imagecolorat($im[2],$x,$y),$col);
+	$delta[0][2]=getcomp(imagecolorat($im[2],$x,$y),$col);//-getcomp(imagecolorat($im[3],$x,$y),$col);
+	$delta[0][3]=getcomp(imagecolorat($im[3],$x,$y),$col);//-getcomp(imagecolorat($im[1],$x,$y),$col);
 	$col='green';
-	$delta[1][1]=getcomp(imagecolorat($im[1],$x,$y),$col)-getcomp(imagecolorat($im[2],$x,$y),$col);
-	$delta[1][2]=getcomp(imagecolorat($im[2],$x,$y),$col)-getcomp(imagecolorat($im[3],$x,$y),$col);
-	$delta[1][3]=getcomp(imagecolorat($im[3],$x,$y),$col)-getcomp(imagecolorat($im[1],$x,$y),$col);
+	$delta[1][1]=getcomp(imagecolorat($im[1],$x,$y),$col);//-getcomp(imagecolorat($im[2],$x,$y),$col);
+	$delta[1][2]=getcomp(imagecolorat($im[2],$x,$y),$col);//-getcomp(imagecolorat($im[3],$x,$y),$col);
+	$delta[1][3]=getcomp(imagecolorat($im[3],$x,$y),$col);//-getcomp(imagecolorat($im[1],$x,$y),$col);
 	$col='red';
-	$delta[2][1]=getcomp(imagecolorat($im[1],$x,$y),$col)-getcomp(imagecolorat($im[2],$x,$y),$col);
-	$delta[2][2]=getcomp(imagecolorat($im[2],$x,$y),$col)-getcomp(imagecolorat($im[3],$x,$y),$col);
-	$delta[2][3]=getcomp(imagecolorat($im[3],$x,$y),$col)-getcomp(imagecolorat($im[1],$x,$y),$col);
+	$delta[2][1]=getcomp(imagecolorat($im[1],$x,$y),$col);//-getcomp(imagecolorat($im[2],$x,$y),$col);
+	$delta[2][2]=getcomp(imagecolorat($im[2],$x,$y),$col);//-getcomp(imagecolorat($im[3],$x,$y),$col);
+	$delta[2][3]=getcomp(imagecolorat($im[3],$x,$y),$col);//-getcomp(imagecolorat($im[1],$x,$y),$col);
 	$col='blue';
-	$delta[3][1]=getcomp(imagecolorat($im[1],$x,$y),$col)-getcomp(imagecolorat($im[2],$x,$y),$col);
-	$delta[3][2]=getcomp(imagecolorat($im[2],$x,$y),$col)-getcomp(imagecolorat($im[3],$x,$y),$col);
-	$delta[3][3]=getcomp(imagecolorat($im[3],$x,$y),$col)-getcomp(imagecolorat($im[1],$x,$y),$col);
+	$delta[3][1]=getcomp(imagecolorat($im[1],$x,$y),$col);//-getcomp(imagecolorat($im[2],$x,$y),$col);
+	$delta[3][2]=getcomp(imagecolorat($im[2],$x,$y),$col);//-getcomp(imagecolorat($im[3],$x,$y),$col);
+	$delta[3][3]=getcomp(imagecolorat($im[3],$x,$y),$col);//-getcomp(imagecolorat($im[1],$x,$y),$col);
+	//print_r($delta);
+	
 
 	$max=array();
 	for($p=0;$p<4;$p++)
 	{
 	  $max[$p]=-100;
-	  if($delta[$p][1]>$delta[$p][2]&&$delta[$p][1]>$delta[$p][3]) $max[$p]=1;
-	  if($delta[$p][2]>$delta[$p][1]&&$delta[$p][2]>$delta[$p][3]) $max[$p]=2;
-	  if($delta[$p][3]>$delta[$p][1]&&$delta[$p][3]>$delta[$p][2]) $max[$p]=3;
+	  if($delta[$p][1]>=$delta[$p][2]&&$delta[$p][1]>=$delta[$p][3]) $max[$p]=1;
+	  if($delta[$p][2]>=$delta[$p][1]&&$delta[$p][2]>=$delta[$p][3]) $max[$p]=2;
+	  if($delta[$p][3]>=$delta[$p][1]&&$delta[$p][3]>=$delta[$p][2]) $max[$p]=3;
 	  
 	  
 	  $min[$p]=-100;
-	  if($delta[$p][1]<$delta[$p][2]&&$delta[$p][1]<$delta[$p][3]) $min[$p]=1;
-	  if($delta[$p][2]<$delta[$p][1]&&$delta[$p][2]<$delta[$p][3]) $min[$p]=2;
-	  if($delta[$p][3]<$delta[$p][1]&&$delta[$p][3]<$delta[$p][2]) $min[$p]=3;
+	  if($delta[$p][1]<=$delta[$p][2]&&$delta[$p][1]<=$delta[$p][3]) $min[$p]=1;
+	  if($delta[$p][2]<=$delta[$p][1]&&$delta[$p][2]<=$delta[$p][3]) $min[$p]=2;
+	  if($delta[$p][3]<=$delta[$p][1]&&$delta[$p][3]<=$delta[$p][2]) $min[$p]=3;
 	  
 	  $med[$p]=-100;
 	  if($min[$p]==1&&$max[$p]==2||$min[$p]==2&&$max[$p]==1) $med[$p]=3;
 	  if($min[$p]==1&&$max[$p]==3||$min[$p]==3&&$max[$p]==1) $med[$p]=2;
 	  if($min[$p]==3&&$max[$p]==2||$min[$p]==2&&$max[$p]==3) $med[$p]=1;
+	  
+	  if($max[$p]!=-100&&$min[$p]!=-100&&$med[$p]!=-100)
+	  if($max[$p]==$min[$p]||$max[$p]==$med[$p])
+	  {
+	  echo 'fail';
+	  die();
+	  }
 	}
+	//echo 'max:';
+	//print_r($max);
+	//  die();
 	
 	if(($max[0]!=-100&&$min[0]!=-100&&$med[0]!=-100)||($max[1]!=-100&&$min[1]!=-100&&$med[1]!=-100)||($max[2]!=-100&&$min[2]!=-100&&$med[2]!=-100))
 	{
@@ -70,6 +82,7 @@
 	      $delnum=$p;
 	    }
 	  }
+	  
 	  
 	if($med[$delnum]!=-100&&$min[$delnum]!=-100)
 	  if(abs($delta[$delnum][$med[$delnum]]-$delta[$delnum][$max[$delnum]])>abs($delta[$delnum][$med[$delnum]]-$delta[$delnum][$min[$delnum]]))
@@ -102,19 +115,20 @@
 	}
 	
       }
-      $sizex=990;
-      $sizey=550;
-       $im[1]=imagecreatefromjpeg('images7/1.jpg');
-       $im[2]=imagecreatefromjpeg('images7/2.jpg');
-       $im[3]=imagecreatefromjpeg('images7/3.jpg');
+      $foldername="images2";
+      $sizex=getimagesize($foldername.'/1.png')[0];
+      $sizey=getimagesize($foldername.'/1.png')[1];
+       $im[1]=imagecreatefrompng($foldername.'/1.png');
+       $im[2]=imagecreatefrompng($foldername.'/2.png');
+       $im[3]=imagecreatefrompng($foldername.'/3.png');
        //imagealphablending($im[1],true);
        imagecolortransparent($im[1], 1);
        //imagealphablending($im[2],true);
        imagecolortransparent($im[2], 1);
      //  imagealphablending($im[3],true);
        imagecolortransparent($im[3], 1);
-       for($i=0;$i<$sizex;$i++)
-	 for($j=0;$j<$sizey;$j++)
+       for($i=1;$i<$sizex;$i++)
+	 for($j=1;$j<$sizey;$j++)
 	   lightenpixels($i,$j,$im);
        header('Content-Type: image/jpeg');
        imagecopy($im[1], $im[2], 0, 0, 0, 0, $sizex, $sizey);
@@ -122,7 +136,7 @@
        imagejpeg($im[1]);
        
        
-       
+       fg435Tvbn45
        
 
-?>
+?> 
